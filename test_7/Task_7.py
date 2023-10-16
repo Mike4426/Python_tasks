@@ -62,15 +62,14 @@ class Data_generation:
         #Выставляем длину строк
         len_str = randint(10, 100)
 
-        #Список случайных букв
-        list_char = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я', ' ']
+        #Загружаем список нашего словаря (который находится в директории)
+        with open('test_7/text_line.txt', 'r', encoding='utf-8') as f:
+            list_data = f.read()
+        list_data = list_data.split('\n')
 
         #Генерируем случайный текст
-        list_text = []
-        for i in range(count_str):
-            text = [list_char[np.random.randint(0, len(list_char)-1)] for i1 in range(len_str)]
-            text = ''.join(text)
-            list_text.append(text)
+        list_text = [list_data[np.random.randint(0, len(list_data)-1)] for i in range(count_str)]
+
 
         return list_text
     
@@ -127,7 +126,7 @@ class Data_generation:
 
 if __name__ == '__main__':
     
-    Data_generation(10_000, {'Название_1': 'int', 'Название_2': 'bool', 'Название_3': 'str', 'Название_4': 'str'})
+    Data_generation(100_000, {'Название_1': 'int', 'Название_2': 'bool', 'Название_3': 'str', 'Название_4': 'str'})
     
     
     
