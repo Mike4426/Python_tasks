@@ -11,9 +11,24 @@ header - словарь ключом которого является назв�
 '''
 
 from random import randint, random
+import numpy as np
 
 class Data_generation:
 
+    #Декоратор замера времения выполнения (не обязательное)
+    def decoration(func):
+
+        def run(*arg):
+            import time
+
+            start = time.time()
+            out = func(*arg)
+            print(f'{func.__name__}: {round(time.time() - start, 3)}')
+            return out
+
+        return run
+    
+    @decoration
     def __init__(self, N: int, header: dict):
         '''N - количество строк необходимое для генерации\n
         header - словарь ключом которого является название колонки, а значением один из типов: int, str или bool'''
@@ -23,7 +38,7 @@ class Data_generation:
         self.name_file = 'test.csv' #Название csv файла
 
         #Проверка ограничения на количества строк
-        if self.N > 109: self.N = 109
+        if self.N > 1_000_000_000: self.N = 1_000_000_000
 
         #Проверка что есть хоть 1 заголовок
         if len(self.header.keys()) > 0: 
@@ -32,15 +47,15 @@ class Data_generation:
             self.csv = self.generation_csv()
             #Запись в файл
             self.write_file_csv()
+    #Генерация int
     
-    #Генерация xbctk
     def generation_number(self, count_num: int):
         '''count_num - Количество значений'''
 
-        num = [randint(0, 100) for i in range(count_num)]
+        num = list(np.random.randint(0, 100, count_num))
         return num
-
     #Генерация значений str
+    
     def generation_str(self, count_str: int):
         '''count_str - Количество значений'''
 
@@ -53,7 +68,7 @@ class Data_generation:
         #Генерируем случайный текст
         list_text = []
         for i in range(count_str):
-            text = [list_char[randint(0, len(list_char)-1)] for i in range(len_str)]
+            text = [list_char[np.random.randint(0, len(list_char)-1)] for i1 in range(len_str)]
             text = ''.join(text)
             list_text.append(text)
 
@@ -82,6 +97,7 @@ class Data_generation:
 
             elif self.header[i] == 'str':
                 out[i] = self.generation_str(self.N)
+
             else:
                 out[i] = self.generation_bool(self.N)
 
@@ -90,17 +106,14 @@ class Data_generation:
 
             _ = []
 
-            #Проходим по колонкам
-            for i1 in self.header.keys():
-
-                _.append(str(out[i1][i]))
+            #Проходим по колонкам (добавляем значения к строке) 
+            _ = [str(out[i1][i]) for i1 in self.header.keys()]
             
             _ = ','.join(_)
             text_out = text_out + _ + '\n'
         
         #Добавляем заголовки
-        _ = [i for i in out.keys()]
-        _ = ','.join(_)
+        _ = ','.join(out.keys())
         text_out = _ + '\n' + text_out
 
         return text_out
@@ -112,11 +125,9 @@ class Data_generation:
             f.write(self.csv)
 
 
-        
-
-    
-
 if __name__ == '__main__':
     
-    gener = Data_generation(10, {'Название_1': 'int', 'Название_2': 'bool', 'Название_3': 'str'})
-    print(gener)
+    gener = Data_generation(30_000, {'Название_1': 'int', 'Название_2': 'bool', 'Название_3': 'str', 'Название_4': 'str'})
+    
+    
+    
