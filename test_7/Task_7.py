@@ -47,15 +47,15 @@ class Data_generation:
             self.csv = self.generation_csv()
             #Запись в файл
             self.write_file_csv()
-    #Генерация int
     
+    #Генерация int
     def generation_number(self, count_num: int):
         '''count_num - Количество значений'''
 
         num = list(np.random.randint(0, 100, count_num))
         return num
-    #Генерация значений str
     
+    #Генерация значений str
     def generation_str(self, count_str: int):
         '''count_str - Количество значений'''
 
