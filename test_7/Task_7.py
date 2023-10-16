@@ -127,7 +127,7 @@ class Data_generation:
 
 if __name__ == '__main__':
     
-    gener = Data_generation(30_000, {'Название_1': 'int', 'Название_2': 'bool', 'Название_3': 'str', 'Название_4': 'str'})
+    Data_generation(10_000, {'Название_1': 'int', 'Название_2': 'bool', 'Название_3': 'str', 'Название_4': 'str'})
     
     
     
